@@ -4,6 +4,7 @@ import com.rajesh.firstdemo.exceptionhandling.MyNoSuchElementException;
 import com.rajesh.firstdemo.model.Employee;
 import com.rajesh.firstdemo.service.EmployeeService;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/operation")
+@Slf4j
 public class EmployeeController {
 
     @Autowired
@@ -19,6 +21,7 @@ public class EmployeeController {
 
     @PostMapping("/emp")
     public Employee save(@Valid @RequestBody Employee employee) {
+        log.info("save method in EmployeeController class");
         return employeeService.saveOrUpdate(employee);
     }
 
