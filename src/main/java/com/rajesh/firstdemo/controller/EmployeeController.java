@@ -3,26 +3,39 @@ package com.rajesh.firstdemo.controller;
 import com.rajesh.firstdemo.exceptionhandling.MyNoSuchElementException;
 import com.rajesh.firstdemo.model.Employee;
 import com.rajesh.firstdemo.service.EmployeeService;
-import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
 @RequestMapping("/operation")
 @Slf4j
+@Profile(value = {"dev","qa","prod"})
 public class EmployeeController {
 
     @Autowired
     private EmployeeService employeeService;
 
+    @Value("${env}")
+    private String env;
+
+    @GetMapping
+    public void getEvn(){
+        System.out.println("profle ="+ env);
+    }
+
     @PostMapping("/emp")
     public Employee save(@Valid @RequestBody Employee employee) {
         log.info("save method in EmployeeController class");
-        return employeeService.saveOrUpdate(employee);
+        Employee emp=employeeService.saveOrUpdate(employee);
+        System.out.println("Employee ="+emp);
+        return emp;
     }
 
     @GetMapping("/emp/{id}")
